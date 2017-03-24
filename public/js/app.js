@@ -2,10 +2,10 @@ var name = getQueryVariable('name') || 'Someone from the other side';
 var room = getQueryVariable('room');
 var socket = io.connect('https://pacific-thicket-12601.herokuapp.com/', {secure: true});
 
-console.log(name + ' wants to join ' + room);
+//console.log(name + ' wants to join ' + room);
 jQuery('.chat-room').text(room);
 socket.on('connect', function() {
-    console.log("CONNECTED TO SOCKET SERVER");
+   // console.log("CONNECTED TO SOCKET SERVER");
     socket.emit('joinRoom', {
         name: name,
         room: room
@@ -16,8 +16,8 @@ socket.on('message', function(message) {
     var mtimestamp = moment.utc(message.timeStamp);
     var $messages = jQuery('.messages');
     var $message = jQuery('<li class="list-group-item"></li>')
-    console.log("New Message: ");
-    console.log(message.text);
+    //console.log("New Message: ");
+    //console.log(message.text);
     $message.append('<p><strong>' + message.name + ' ' + mtimestamp.local().format('h:mma:') +'</strong></p>')
     $message.append('<p>' + message.text + '</p>');
     $messages.append($message);

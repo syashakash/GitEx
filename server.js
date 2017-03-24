@@ -21,7 +21,7 @@ function sendcurrentusers(socket)
     });
     
     socket.emit('message', {
-        name: 'Samantha',
+        name: 'OctoKitty',
         text: 'Current users: ' + users.join(', '),
         timeStamp: __moment().valueOf()
     });
