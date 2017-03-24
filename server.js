@@ -8,11 +8,11 @@ var clientInfo = {};
 
 
 var pg = require('pg');
-var username = "";
-var pass = "";
-var host = "";
-var port;
-var database = "";
+var username = "aiiiluselxdxve";
+var pass = "feecf1b6ab3c31aaa113b0a271c72b8f2e50c9cf7c6b40235960c47650ae308c";
+var host = "ec2-54-225-99-171.compute-1.amazonaws.com";
+var port = 5432;
+var database = "d4gfak5ci5trl5";
 var connString = "postgres://"+username+":"+pass+"@"+host=":"+port+"/"+database;
 
 var client = new pg.Client(connString);
