@@ -1,4 +1,4 @@
-var PORT = process.env.PORT || 3000 ;
+var PORT = process.env.PORT || 443 ;
 var __express = require('express');
 var app = __express();
 var __http = require('http').Server(app);
@@ -69,6 +69,7 @@ io.on('connection', function(socket) {
     });
 });
 
-__http.listen(PORT, "0.0.0.0",  function() {
+__http.listen(PORT,  function() {
     console.log("SERVER STARTED");
 });
+//io.set('transports',['websocket']);
