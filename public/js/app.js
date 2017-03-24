@@ -1,6 +1,6 @@
 var name = getQueryVariable('name') || 'Someone from the other side';
 var room = getQueryVariable('room');
-var socket = io('http://localhost:3000');
+var socket = io.connect('https://pacific-thicket-12601.herokuapp.com/', {secure: true});
 
 console.log(name + ' wants to join ' + room);
 jQuery('.chat-room').text(room);
@@ -34,3 +34,4 @@ $form.on('submit', function() {
     });
     $msg.val('');
 });
+
