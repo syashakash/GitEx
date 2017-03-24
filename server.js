@@ -6,6 +6,26 @@ var io = require('socket.io')(__http);
 var __moment = require('moment');
 var clientInfo = {};
 
+
+var pg = require('pg');
+var username = "";
+var pass = "";
+var host = "";
+var port;
+var database = "";
+var connString = "postgres://"+username+":"+pass+"@"+host=":"+port+"/"+database;
+
+var client = new pg.Client(connString);
+var result = client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';");
+var firstM;
+result.on('row',function(row){
+    firstM = row;
+});
+result.on('end', function() {
+    client.end();
+});
+
+
 app.use(__express.static(__dirname + '/public'));
 
 function sendcurrentusers(socket) 
@@ -22,7 +42,7 @@ function sendcurrentusers(socket)
     
     socket.emit('message', {
         name: 'OctoKitty',
-        text: 'Current users: ' + users.join(', '),
+        text: firstM + 'Current users: ' + users.join(', '),
         timeStamp: __moment().valueOf()
     });
 }
@@ -73,3 +93,4 @@ __http.listen(PORT,  function() {
     console.log("SERVER STARTED");
 });
 //io.set('transports',['websocket']);
+
