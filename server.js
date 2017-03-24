@@ -5,8 +5,54 @@ var __http = require('http').Server(app);
 var io = require('socket.io')(__http);
 var __moment = require('moment');
 var clientInfo = {};
+var passport = require('passport');
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  In a
+// production-quality application, this would typically be as simple as
+// supplying the user ID when serializing, and querying the user record by ID
+// from the database when deserializing.  However, due to the fact that this
+// example does not have a database, the complete Facebook profile is serialized
+// and deserialized.
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
+var GitHubStrategy = require('passport-github').Strategy;
+
+passport.use(new GitHubStrategy({
+    clientID: 'f2213f5b59ec03df0871',
+    clientSecret: 'be8cc9a944f095d3b6e2bed59f74de5eecb421c7',
+    callbackURL: "https://pacific-thicket-12601.herokuapp.com/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+/*
 var pg = require('pg');
 var connString = "postgres://aiiiluselxdxve:feecf1b6ab3c31aaa113b0a271c72b8f2e50c9cf7c6b40235960c47650ae308c@ec2-54-225-99-171.compute-1.amazonaws.com:5432/d4gfak5ci5trl5";
 
@@ -19,7 +65,7 @@ result.on('row',function(row){
 result.on('end', function() {
     client.end();
 });
-
+*/
 
 app.use(__express.static(__dirname + '/public'));
 
@@ -37,7 +83,7 @@ function sendcurrentusers(socket)
     
     socket.emit('message', {
         name: 'OctoKitty',
-        text: firstM + 'Current users: ' + users.join(', '),
+        text: 'Current users: ' + users.join(', '),
         timeStamp: __moment().valueOf()
     });
 }
