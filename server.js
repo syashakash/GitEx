@@ -8,12 +8,7 @@ var clientInfo = {};
 
 
 var pg = require('pg');
-var username = "aiiiluselxdxve";
-var pass = "feecf1b6ab3c31aaa113b0a271c72b8f2e50c9cf7c6b40235960c47650ae308c";
-var host = "ec2-54-225-99-171.compute-1.amazonaws.com";
-var port = 5432;
-var database = "d4gfak5ci5trl5";
-var connString = "postgres://"+username+":"+pass+"@"+host=":"+port+"/"+database;
+var connString = "postgres://aiiiluselxdxve:feecf1b6ab3c31aaa113b0a271c72b8f2e50c9cf7c6b40235960c47650ae308c@ec2-54-225-99-171.compute-1.amazonaws.com:5432/d4gfak5ci5trl5";
 
 var client = new pg.Client(connString);
 var result = client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';");
