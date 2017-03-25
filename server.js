@@ -106,7 +106,7 @@ io.on('connection', function(socket) {
         socket.join(request.room);
         //console.log(clientInfo[socket.id].room);
         socket.broadcast.to(request.room).emit('message', {
-            name: 'Samantha',
+            name: 'Gittu',
             text: request.name + ' has joined!',
             timeStamp: __moment().valueOf()
         });
