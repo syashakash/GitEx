@@ -81,7 +81,7 @@ function sendcurrentusers(socket) {
     });
 
     socket.emit('message', {
-        name: 'OctoKitty',
+        name: 'OctoBilly',
         text: 'Current users: ' + users.join(', '),
         timeStamp: __moment().valueOf()
     });
@@ -94,7 +94,7 @@ io.on('connection', function(socket) {
         if (typeof clientInfo[socket.id] !== 'undefined') {
             socket.leave(clientInfo[socket.id].room);
             io.to(clientInfo[socket.id].room).emit('message', {
-                name: 'Samantha',
+                name: 'Octobilly',
                 text: clientInfo[socket.id].name + ' has left!',
                 timeStamp: __moment().valueOf()
             });
@@ -106,7 +106,7 @@ io.on('connection', function(socket) {
         socket.join(request.room);
         //console.log(clientInfo[socket.id].room);
         socket.broadcast.to(request.room).emit('message', {
-            name: 'Gittu',
+            name: 'OctoBilly',
             text: request.name + ' has joined!',
             timeStamp: __moment().valueOf()
         });
@@ -123,7 +123,7 @@ io.on('connection', function(socket) {
     });
 
     socket.emit('message', {
-        name: 'Samantha',
+        name: 'OctoBilly',
         text: 'Hello from the server\'s side',
         timeStamp: __moment().valueOf()
     });
