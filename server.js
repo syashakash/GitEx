@@ -1,4 +1,4 @@
-var PORT = process.env.PORT || 443 ;
+var PORT = process.env.PORT || 443;
 var __express = require('express');
 var app = __express();
 var __http = require('http').Server(app);
@@ -17,11 +17,11 @@ var passport = require('passport');
 // example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
 passport.serializeUser(function(user, cb) {
-  cb(null, user);
+    cb(null, user);
 });
 
 passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+    cb(null, obj);
 });
 
 app.use(passport.initialize());
@@ -31,26 +31,26 @@ app.use(passport.session());
 var GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
-    clientID: 'f2213f5b59ec03df0871',
-    clientSecret: 'be8cc9a944f095d3b6e2bed59f74de5eecb421c7',
-    callbackURL: "https://pacific-thicket-12601.herokuapp.com/auth/github/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ githubId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
-  }
+        clientID: 'f2213f5b59ec03df0871',
+        clientSecret: 'be8cc9a944f095d3b6e2bed59f74de5eecb421c7',
+        callbackURL: "https://pacific-thicket-12601.herokuapp.com/auth/github/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        User.findOrCreate({ githubId: profile.id }, function(err, user) {
+            return cb(err, user);
+        });
+    }
 ));
 
 app.get('/auth/github',
-  passport.authenticate('github'));
+    passport.authenticate('github'));
 
-app.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+app.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
+    });
 
 /*
 var pg = require('pg');
@@ -69,18 +69,17 @@ result.on('end', function() {
 
 app.use(__express.static(__dirname + '/public'));
 
-function sendcurrentusers(socket) 
-{
+function sendcurrentusers(socket) {
     var info = clientInfo[socket.id];
     var users = [];
-    if(typeof info === 'undefined') return;
+    if (typeof info === 'undefined') return;
     Object.keys(clientInfo).forEach(function(socketId) {
         var userInfo = clientInfo[socketId];
-        if(userInfo.room === info.room) {
-           users.push(userInfo.name);
+        if (userInfo.room === info.room) {
+            users.push(userInfo.name);
         }
     });
-    
+
     socket.emit('message', {
         name: 'OctoKitty',
         text: 'Current users: ' + users.join(', '),
@@ -90,9 +89,9 @@ function sendcurrentusers(socket)
 
 io.on('connection', function(socket) {
     //console.log("USER CONNECTED via SOCKET");
-    
+
     socket.on('disconnect', function() {
-        if(typeof clientInfo[socket.id] !== 'undefined') {
+        if (typeof clientInfo[socket.id] !== 'undefined') {
             socket.leave(clientInfo[socket.id].room);
             io.to(clientInfo[socket.id].room).emit('message', {
                 name: 'Samantha',
@@ -112,10 +111,10 @@ io.on('connection', function(socket) {
             timeStamp: __moment().valueOf()
         });
     });
-    
+
     socket.on('message', function(message) {
         message.timeStamp = __moment().valueOf();
-        if(message.text === '@currentUsers') {
+        if (message.text === '@currentUsers') {
             sendcurrentusers(socket);
         } else {
             //console.log("Message received: " + message.text);
@@ -130,8 +129,7 @@ io.on('connection', function(socket) {
     });
 });
 
-__http.listen(PORT,  function() {
+__http.listen(PORT, function() {
     console.log("SERVER STARTED");
 });
 //io.set('transports',['websocket']);
-
